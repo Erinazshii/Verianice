@@ -1,0 +1,942 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>For Vera ❤️</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fafafa;
+        color: #181818;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* =========================
+       GENERAL
+    ========================= */
+
+    .screen {
+        min-height: 100vh;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+        animation: fadeIn 0.7s ease;
+    }
+
+    .screen.active {
+        display: flex;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 650px;
+        text-align: center;
+    }
+
+    .red {
+        color: #c1121f;
+    }
+
+    button {
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s ease;
+    }
+
+    /* =========================
+       PASSWORD SCREEN
+    ========================= */
+
+    #passwordScreen {
+        background: #ffffff;
+    }
+
+    .lock {
+        font-size: 35px;
+        margin-bottom: 25px;
+    }
+
+    .small-text {
+        color: #777;
+        font-size: 13px;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+    }
+
+    .password-title {
+        font-size: clamp(32px, 8vw, 55px);
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .password-subtitle {
+        color: #777;
+        margin-bottom: 35px;
+    }
+
+    input {
+        width: 100%;
+        max-width: 350px;
+        padding: 15px 18px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        outline: none;
+        font-size: 16px;
+        text-align: center;
+        transition: 0.2s;
+    }
+
+    input:focus {
+        border-color: #c1121f;
+        box-shadow: 0 0 0 3px rgba(193,18,31,0.08);
+    }
+
+    .main-button {
+        display: block;
+        margin: 15px auto 0;
+        padding: 14px 30px;
+        background: #c1121f;
+        color: white;
+        border-radius: 12px;
+    }
+
+    .main-button:hover {
+        background: #a30f1a;
+        transform: translateY(-2px);
+    }
+
+    .error {
+        color: #c1121f;
+        margin-top: 12px;
+        font-size: 13px;
+        min-height: 18px;
+    }
+
+    /* =========================
+       QUESTION SCREEN
+    ========================= */
+
+    .question-number {
+        color: #c1121f;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .question {
+        font-size: clamp(25px, 6vw, 42px);
+        line-height: 1.2;
+        margin-bottom: 30px;
+    }
+
+    .hint-box {
+        background: #fff5f5;
+        border-left: 3px solid #c1121f;
+        padding: 15px;
+        margin: 25px auto;
+        max-width: 500px;
+        color: #555;
+        font-style: italic;
+    }
+
+    /* =========================
+       TRANSITION SCREEN
+    ========================= */
+
+    .heart {
+        font-size: 65px;
+        animation: heartbeat 1.2s infinite;
+        margin-bottom: 25px;
+    }
+
+    .transition-title {
+        font-size: clamp(30px, 7vw, 48px);
+        margin-bottom: 10px;
+    }
+
+    .transition-subtitle {
+        color: #777;
+    }
+
+    /* =========================
+       MAIN PAGE
+    ========================= */
+
+    #mainScreen {
+        display: none;
+        padding: 0;
+        align-items: initial;
+    }
+
+    #mainScreen.active {
+        display: block;
+    }
+
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 25px;
+        text-align: center;
+        background: #fff;
+    }
+
+    .hero-content {
+        max-width: 700px;
+    }
+
+    .hero-small {
+        color: #c1121f;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+
+    .hero-title {
+        font-size: clamp(50px, 13vw, 100px);
+        line-height: 0.95;
+        font-weight: 800;
+        margin-bottom: 25px;
+    }
+
+    .hero-title span {
+        color: #c1121f;
+    }
+
+    .hero-text {
+        color: #666;
+        font-size: 16px;
+        line-height: 1.7;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .scroll {
+        margin-top: 60px;
+        color: #999;
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    section {
+        padding: 90px 25px;
+    }
+
+    .section-container {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .section-label {
+        color: #c1121f;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .section-title {
+        font-size: clamp(32px, 7vw, 55px);
+        margin-bottom: 25px;
+    }
+
+    .intro {
+        color: #666;
+        line-height: 1.8;
+        max-width: 650px;
+        font-size: 16px;
+    }
+
+    /* =========================
+       MEMORIES
+    ========================= */
+
+    .memory-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 40px;
+    }
+
+    .memory {
+        background: white;
+        border: 1px solid #eee;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: 0.3s;
+    }
+
+    .memory:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    }
+
+    .memory img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .memory-info {
+        padding: 18px;
+    }
+
+    .memory-date {
+        color: #c1121f;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 7px;
+    }
+
+    .memory-title {
+        font-weight: bold;
+        margin-bottom: 7px;
+    }
+
+    .memory-description {
+        color: #777;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    /* =========================
+       LETTER
+    ========================= */
+
+    .letter {
+        margin-top: 40px;
+        background: white;
+        border: 1px solid #eee;
+        padding: 35px;
+        border-radius: 18px;
+        line-height: 1.9;
+        color: #444;
+    }
+
+    .letter p {
+        margin-bottom: 18px;
+    }
+
+    .signature {
+        color: #c1121f;
+        font-weight: bold;
+        margin-top: 30px;
+    }
+
+    /* =========================
+       FINAL
+    ========================= */
+
+    .final-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: #181818;
+        color: white;
+    }
+
+    .final-title {
+        font-size: clamp(40px, 10vw, 80px);
+        line-height: 1;
+        margin-bottom: 20px;
+    }
+
+    .final-title span {
+        color: #e63946;
+    }
+
+    .final-text {
+        color: #aaa;
+        line-height: 1.8;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .final-heart {
+        font-size: 45px;
+        margin-top: 35px;
+    }
+
+    /* =========================
+       ANIMATIONS
+    ========================= */
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes heartbeat {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.15);
+        }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        .memory-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .memory img {
+            height: 280px;
+        }
+
+        .letter {
+            padding: 25px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- =================================
+     PASSWORD SCREEN
+================================= -->
+
+<div id="passwordScreen" class="screen active">
+
+    <div class="container">
+
+        <div class="lock">🔒</div>
+
+        <div class="small-text">
+            private
+        </div>
+
+        <h1 class="password-title">
+            Just us.
+        </h1>
+
+        <p class="password-subtitle">
+            You know what to enter. :)
+        </p>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Enter the password"
+        >
+
+        <button class="main-button" onclick="checkPassword()">
+            Unlock
+        </button>
+
+        <div id="passwordError" class="error"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =================================
+     QUESTION SCREEN
+================================= -->
+
+<div id="questionScreen" class="screen">
+
+    <div class="container">
+
+        <div class="question-number">
+            One little question
+        </div>
+
+        <h1 class="question">
+            What did you tell/ask me,
+            before I became your boyfriend? :)
+        </h1>
+
+        <div class="hint-box">
+            Hint: "tayo nalang kasi nakakatamad na umupo"
+        </div>
+
+        <input
+            type="text"
+            id="answerInput"
+            placeholder="Your answer..."
+        >
+
+        <button class="main-button" onclick="checkAnswer()">
+            Submit ❤️
+        </button>
+
+        <div id="answerError" class="error"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =================================
+     TRANSITION SCREEN
+================================= -->
+
+<div id="transitionScreen" class="screen">
+
+    <div class="container">
+
+        <div class="heart">❤️</div>
+
+        <h1 class="transition-title">
+            You remembered.
+        </h1>
+
+        <p class="transition-subtitle">
+            Then I guess you're ready.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =================================
+     MAIN WEBSITE
+================================= -->
+
+<div id="mainScreen">
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-small">
+                For Vera
+            </div>
+
+            <h1 class="hero-title">
+                One<br>
+                <span>Month.</span>
+            </h1>
+
+            <p class="hero-text">
+                A tiny corner of the internet that I made
+                just for us.
+            </p>
+
+            <div class="scroll">
+                ↓ SCROLL
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INTRO -->
+
+    <section>
+
+        <div class="section-container">
+
+            <div class="section-label">
+                01 — Us
+            </div>
+
+            <h2 class="section-title">
+                One month with you.
+            </h2>
+
+            <p class="intro">
+                One month might not sound like a long time,
+                but somehow you've already become such a
+                special part of my life.
+
+                <br><br>
+
+                So instead of just saying "Happy Monthsary,"
+                I wanted to make you something that you could
+                keep coming back to.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MEMORIES -->
+
+    <section style="background:#f7f7f7;">
+
+        <div class="section-container">
+
+            <div class="section-label">
+                02 — Memories
+            </div>
+
+            <h2 class="section-title">
+                Little moments.
+            </h2>
+
+            <p class="intro">
+                Some of the moments that made this first month
+                ours.
+            </p>
+
+
+            <div class="memory-grid">
+
+                <!-- MEMORY 1 -->
+
+                <div class="memory">
+
+                    <!--
+                    CHANGE "memory1.jpg"
+                    TO YOUR PHOTO'S FILE NAME
+                    -->
+
+                    <img src="memory1.jpg" alt="Our memory">
+
+                    <div class="memory-info">
+
+                        <div class="memory-date">
+                            First memory
+                        </div>
+
+                        <div class="memory-title">
+                            The beginning
+                        </div>
+
+                        <div class="memory-description">
+                            Write something about this
+                            picture here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MEMORY 2 -->
+
+                <div class="memory">
+
+                    <img src="memory2.jpg" alt="Our memory">
+
+                    <div class="memory-info">
+
+                        <div class="memory-date">
+                            Memory
+                        </div>
+
+                        <div class="memory-title">
+                            Us being us
+                        </div>
+
+                        <div class="memory-description">
+                            Add a little story about this
+                            moment.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MEMORY 3 -->
+
+                <div class="memory">
+
+                    <img src="memory3.jpg" alt="Our memory">
+
+                    <div class="memory-info">
+
+                        <div class="memory-date">
+                            Memory
+                        </div>
+
+                        <div class="memory-title">
+                            Another one
+                        </div>
+
+                        <div class="memory-description">
+                            Add whatever you want here.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MEMORY 4 -->
+
+                <div class="memory">
+
+                    <img src="memory4.jpg" alt="Our memory">
+
+                    <div class="memory-info">
+
+                        <div class="memory-date">
+                            Memory
+                        </div>
+
+                        <div class="memory-title">
+                            One more
+                        </div>
+
+                        <div class="memory-description">
+                            Another little moment I want
+                            to remember.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LETTER -->
+
+    <section>
+
+        <div class="section-container">
+
+            <div class="section-label">
+                03 — A letter
+            </div>
+
+            <h2 class="section-title">
+                For you, Vera.
+            </h2>
+
+            <div class="letter">
+
+                <p>
+                    Happy one month, baby. ❤️
+                </p>
+
+                <p>
+                    I don't really know how to put everything
+                    I feel into words, but I just want you to
+                    know that I'm really happy that it's you.
+                </p>
+
+                <p>
+                    Thank you for all the little moments,
+                    conversations, laughs, and memories we've
+                    already made together.
+                </p>
+
+                <p>
+                    This is only our first month, and I hope
+                    we get to make a whole lot more memories
+                    together.
+                </p>
+
+                <p>
+                    I love you, bubums.
+                </p>
+
+                <div class="signature">
+                    — Nate ❤️
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FINAL -->
+
+    <section class="final-section">
+
+        <div>
+
+            <div class="section-label">
+                04 — End
+            </div>
+
+            <h2 class="final-title">
+                Happy<br>
+                <span>Monthsary.</span>
+            </h2>
+
+            <p class="final-text">
+                One month down.
+                Hopefully, many more to go.
+            </p>
+
+            <div class="final-heart">
+                ❤️
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       PASSWORD
+    ========================= */
+
+    function checkPassword() {
+
+        const input =
+            document.getElementById("passwordInput").value
+            .trim()
+            .toLowerCase();
+
+        const correctPassword =
+            "tayo nalang kaya";
+
+        if (input === correctPassword) {
+
+            document
+                .getElementById("passwordScreen")
+                .classList.remove("active");
+
+            document
+                .getElementById("questionScreen")
+                .classList.add("active");
+
+        } else {
+
+            document
+                .getElementById("passwordError")
+                .textContent =
+                "Hmm... that's not it. Try again ❤️";
+
+        }
+
+    }
+
+
+    /* =========================
+       QUESTION
+    ========================= */
+
+    function checkAnswer() {
+
+        const input =
+            document.getElementById("answerInput").value
+            .trim()
+            .toLowerCase();
+
+        const correctAnswer =
+            "tayo nalang kaya";
+
+        if (input === correctAnswer) {
+
+            document
+                .getElementById("questionScreen")
+                .classList.remove("active");
+
+            document
+                .getElementById("transitionScreen")
+                .classList.add("active");
+
+            /*
+            Wait 2 seconds before showing
+            the main website.
+            */
+
+            setTimeout(function() {
+
+                document
+                    .getElementById("transitionScreen")
+                    .classList.remove("active");
+
+                document
+                    .getElementById("mainScreen")
+                    .classList.add("active");
+
+                window.scrollTo(0, 0);
+
+            }, 2000);
+
+        } else {
+
+            document
+                .getElementById("answerError")
+                .textContent =
+                "Are you sure? Think about it... ❤️";
+
+        }
+
+    }
+
+
+    /* =========================
+       ENTER KEY SUPPORT
+    ========================= */
+
+    document
+        .getElementById("passwordInput")
+        .addEventListener("keypress", function(event) {
+
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+
+        });
+
+
+    document
+        .getElementById("answerInput")
+        .addEventListener("keypress", function(event) {
+
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+
+        });
+
+</script>
+
+</body>
+</html>
+```
